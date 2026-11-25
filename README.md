@@ -1,5 +1,13 @@
 # ARLIFT
 
+<a id="authors"></a>
+
+**👥 Authors:** [Gezhi Zhu](https://github.com/TetuDegit)<sup>1</sup> · [Xuemei Zhou](https://www.cwi.nl/en/people/xuemei-zhou/)<sup>2</sup> · [Teng Long](https://tenglon.github.io/)<sup>3</sup> · [Vincent Tao Hu](https://taohu.me/)<sup>1</sup>
+
+<sup>1</sup> Huazhong University of Science and Technology<br>
+<sup>2</sup> Centrum voor Wiskunde en Informatica (CWI)<br>
+<sup>3</sup> University of Trento
+
 [🌐 Project website](https://vibe-hust.github.io/arlift/) · [💻 Code repository](https://github.com/vibe-hust/arlift_code)
 
 **High-resolution video generation with low-resolution draft guidance.** ARLIFT generates a low-resolution draft and uses its structure to guide a second pass at twice the width and height. This repository contains the inference code, model-specific settings, and scripts for downloading the pinned checkpoints.

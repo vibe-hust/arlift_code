@@ -8,7 +8,7 @@
 <sup>2</sup> Centrum voor Wiskunde en Informatica (CWI)<br>
 <sup>3</sup> University of Trento
 
-[🌐 Project website](https://vibe-hust.github.io/arlift/) · [💻 Code repository](https://github.com/vibe-hust/arlift_code)
+[🌐 Project website](https://vibe-hust.github.io/arlift_page/) · [💻 Code repository](https://github.com/vibe-hust/arlift_code)
 
 **High-resolution video generation with low-resolution draft guidance.** ARLIFT generates a low-resolution draft and uses its structure to guide a second pass at twice the width and height. This repository contains the inference code, model-specific settings, and scripts for downloading the pinned checkpoints.
 

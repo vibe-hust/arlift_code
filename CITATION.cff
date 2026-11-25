@@ -3,7 +3,7 @@ message: If you use this work or code, please cite the reference below.
 title: 'ARLIFT: Training-Free Resolution Extrapolation for Few-Step Autoregressive Video Generation'
 type: software
 repository-code: https://github.com/vibe-hust/arlift_code
-url: https://vibe-hust.github.io/arlift/
+url: https://vibe-hust.github.io/arlift_page/
 authors:
 - given-names: Gezhi
   family-names: Zhu

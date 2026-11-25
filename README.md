@@ -1,6 +1,6 @@
 # ARLIFT
 
-[Project website](https://vibe-hust.github.io/arlift/) · [Code repository](https://github.com/vibe-hust/arlift_code)
+[🌐 Project website](https://vibe-hust.github.io/arlift/) · [💻 Code repository](https://github.com/vibe-hust/arlift_code)
 
 **High-resolution video generation with low-resolution draft guidance.** ARLIFT generates a low-resolution draft and uses its structure to guide a second pass at twice the width and height. This repository contains the inference code, model-specific settings, and scripts for downloading the pinned checkpoints.
 
@@ -10,7 +10,9 @@
 | [LongLive 2.0 5B](#longlive-20-5b) | 1280 × 704 → 2560 × 1408 | 112 frames at 16 fps | ~44 GB |
 | [MiniMax-H3 Ref2VA](#minimax-h3-ref2va) | 1344 × 768 → 2688 × 1536 | 124 frames at 24 fps, with audio from the draft | ~216 GB from text, ~146 GB with an existing draft |
 
-## Getting started
+<a id="getting-started"></a>
+
+## 🚀 Getting started
 
 ```bash
 git clone https://github.com/vibe-hust/arlift_code.git
@@ -21,7 +23,9 @@ Choose one backbone and run its commands from the repository root. The three def
 
 Krea and LongLive share a Python 3.11 environment and require FFmpeg with `libx264` on `PATH`. MiniMax uses a separate Python 3.12 environment. The examples use two visible GPUs on one machine.
 
-## Krea Realtime 14B
+<a id="krea-realtime-14b"></a>
+
+## 🎬 Krea Realtime 14B
 
 Set up the causal-model environment with a CUDA 12.8-compatible driver and the CUDA toolkit for building FlashAttention.
 
@@ -41,7 +45,9 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc-per-node=2 krea_14b/gener
 
 Krea generates ten draft blocks of three latent frames each. The final clean estimate of each draft block guides the matching high-resolution block. Each branch maintains its own seven-slot LiteMem history. The defaults are in [the Krea configuration](krea_14b/inference.yaml).
 
-## LongLive 2.0 5B
+<a id="longlive-20-5b"></a>
+
+## 🎥 LongLive 2.0 5B
 
 If starting with LongLive, run the first setup block under Krea to create `.venv-ar` and install PyTorch. Then install the LongLive dependencies and generate a clip.
 
@@ -57,7 +63,9 @@ LongLive generates four blocks of eight latent frames. Each block uses four UniP
 
 For a single-GPU run with either causal model, launch its `generate.py` with `CUDA_VISIBLE_DEVICES=0 python` in place of `CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc-per-node=2`.
 
-## MiniMax-H3 Ref2VA
+<a id="minimax-h3-ref2va"></a>
+
+## 🎞️ MiniMax-H3 Ref2VA
 
 Use two visible GPUs on one machine, a CUDA 12.9-compatible driver, Git, and the system `patch` tool. The text encoder has a configured memory budget of 48 GiB per GPU. The transformer also uses host RAM for offloading. Apply and verify the two bundled Diffusers patches after installation.
 
@@ -89,7 +97,9 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc-per-node=2 minimax_h3_ref
 
 MiniMax applies spatial guidance in the first four of eight steps. Its noise schedule and guidance weights are in [the MiniMax configuration](minimax_h3_ref2va/inference.yaml).
 
-## Writing prompts
+<a id="writing-prompts"></a>
+
+## ✍️ Writing prompts
 
 Use a detailed prompt for a single continuous shot rather than a short caption. For English prompts, about 60 words in three sentences is a good starting point, as in the tested example below. This is a recommendation, not a minimum length. ARLIFT uses the low-resolution draft to guide the high-resolution pass, so describe one main action that fits the clip and make the subject, motion, and camera behavior explicit.
 
@@ -105,12 +115,16 @@ Use `--prompt-file path/to/prompt.txt` for a UTF-8 text file containing one prom
 
 With this example, the default settings, and the two-H100 setup above, the published inference code reproduced the Krea and LongLive evaluation MP4s byte for byte. MiniMax also generated the example successfully from text.
 
-## Weights and outputs
+<a id="weights-and-outputs"></a>
+
+## 📦 Weights and outputs
 
 - Checkpoints go under `weights/<backbone>/` by default. To use another disk, pass the same `--weights-dir /path/to/weights` to the download and generation commands. Model sources, revisions, and required files are in the [weight manifest](arlift/weights.json).
 - Use `--list` with the download command to inspect sources before downloading. Use `--describe` on a generation command to validate and print its resolved configuration, or `--check-weights` to verify that the files and indexed shards exist. These checks run on CPU. For a refinement-only MiniMax installation, use `--check-weights` with `--draft /path/to/draft.mp4` and its matching prompt.
 - `--output` selects the MP4 path. Existing files are protected. With `--config` you can pass a copy of a model's YAML. The dimensions, block lengths and schedules shipped here correspond to the paper settings.
 
-## Attributions and licenses
+<a id="attributions-and-licenses"></a>
+
+## 📄 Attributions and licenses
 
 See the [third-party notices](THIRD_PARTY_NOTICES.md) for source revisions, component-specific terms, and model licenses. Powered by MiniMax H3.

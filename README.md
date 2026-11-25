@@ -142,8 +142,50 @@ With this example, the default settings, and the two-H100 setup above, the publi
 - Use `--list` with the download command to inspect sources before downloading. Use `--describe` on a generation command to validate and print its resolved configuration, or `--check-weights` to verify that the files and indexed shards exist. These checks run on CPU. For a refinement-only MiniMax installation, use `--check-weights` with `--draft /path/to/draft.mp4` and its matching prompt.
 - `--output` selects the MP4 path. Existing files are protected. With `--config` you can pass a copy of a model's YAML. The dimensions, block lengths and schedules shipped here correspond to the paper settings.
 
+<a id="acknowledgments"></a>
+
+## 🙏 Acknowledgments
+
+We thank the authors and maintainers of the projects and models used by ARLIFT:
+
+- **Autoregressive backbones:** [Krea Realtime Video](https://github.com/krea-ai/realtime-video), [Wan](https://github.com/Wan-Video/Wan2.1), and [LongLive](https://github.com/NVlabs/LongLive).
+- **Attention memory:** [MemRoPE](https://github.com/YoungRaeKimm/MemRoPE), whose memory mechanism informs the LiteMem adaptation.
+- **Draft and refinement components:** [Pika-H3-Flex](https://github.com/Pika-Labs/Pika-H3-Flex), [MiniMax H3](https://huggingface.co/MiniMaxAI/MiniMax-H3), and the [Open-H3-Regenerate / HyperFlow integration](https://huggingface.co/Efficient-Large-Model/Open-H3-Regenerate-2K-IC).
+- **Runtime libraries:** [PyTorch](https://github.com/pytorch/pytorch) and [Diffusers](https://github.com/huggingface/diffusers).
+
+The [third-party notices](THIRD_PARTY_NOTICES.md) record source revisions and adaptations. Powered by MiniMax H3.
+
+<a id="citation"></a>
+
+## 📚 Citation
+
+If you use this work or code, please cite:
+
+```bibtex
+@misc{zhu2026arlift,
+  title  = {{ARLIFT: Training-Free Resolution Extrapolation for Few-Step Autoregressive Video Generation}},
+  author = {Zhu, Gezhi and Zhou, Xuemei and Long, Teng and Hu, Vincent Tao},
+  year   = {2026},
+  url    = {https://github.com/vibe-hust/arlift_code}
+}
+```
+
+A machine-readable citation is available in [CITATION.cff](CITATION.cff).
+
 <a id="attributions-and-licenses"></a>
 
-## 📄 Attributions and licenses
+<a id="license"></a>
 
-See the [third-party notices](THIRD_PARTY_NOTICES.md) for source revisions, component-specific terms, and model licenses. Powered by MiniMax H3.
+## 📄 License
+
+ARLIFT contains components with different licenses. The repository does not declare a single license covering all code and model weights.
+
+| Component | License or terms |
+| --- | --- |
+| Krea-derived components | [CC BY-NC-SA 4.0](licenses/Krea-Realtime.md) |
+| Wan and LongLive code | [Wan Apache 2.0](licenses/Wan-Apache-2.0.txt) and [LongLive Apache 2.0](licenses/LongLive.txt) |
+| Pika-H3-Flex inference code and patches | [Apache 2.0](licenses/Pika-H3-Flex/LICENSE-CODE) |
+| MiniMax H3 works | [MiniMax H3 Community License](licenses/Pika-H3-Flex/licenses/MiniMax-H3-LICENSE.txt) |
+| Open-H3-Regenerate components | [Model license](licenses/Open-H3-Regenerate/LICENSE), [Qwen license](licenses/Open-H3-Regenerate/LICENSE-Qwen.txt), and [notice](licenses/Open-H3-Regenerate/NOTICE) |
+
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the component mapping and the separate model-weight terms, including LongLive's NVIDIA Open Model License. The downloader's pinned model sources are recorded in [arlift/weights.json](arlift/weights.json).

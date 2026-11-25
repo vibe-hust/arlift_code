@@ -38,9 +38,19 @@ git clone https://github.com/vibe-hust/arlift_code.git
 cd arlift_code
 ```
 
-Choose one backbone and run its commands from the repository root. The three default generation paths were tested end to end on Linux, each on a single node with two NVIDIA H100 GPUs (64 GiB class) and the listed checkpoints. The tests used prepared environments and verified the exported frame size, frame count, frame rate, and MiniMax audio track.
+Choose one backbone and run its commands from the repository root. All three default generation paths were tested on a single Linux node with two NVIDIA H100 GPUs (about 64 GiB visible per device) and the listed checkpoints. The tests used prepared environments and verified the exported frame size, frame count, frame rate, and MiniMax audio track.
 
 Krea and LongLive share a Python 3.11 environment and require FFmpeg with `libx264` on `PATH`. MiniMax uses a separate Python 3.12 environment. The examples use two visible GPUs on one machine.
+
+To preview a run before downloading weights, install PyYAML in your active Python environment. These commands run on CPU and show the resolved settings, the prompt, and the pinned checkpoints with their destinations.
+
+```bash
+python -m pip install PyYAML==6.0.3
+python krea_14b/generate.py --describe
+python download_weights.py krea_14b --list
+```
+
+For the other backbones, replace `krea_14b` in both commands with `longlive_5b` or `minimax_h3_ref2va`.
 
 <a id="krea-realtime-14b"></a>
 
@@ -62,7 +72,7 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc-per-node=2 krea_14b/gener
   --prompt-file examples/prompt.txt --output outputs/krea.mp4
 ```
 
-Krea generates ten draft blocks of three latent frames each. The final clean estimate of each draft block guides the matching high-resolution block. Each branch maintains its own seven-slot LiteMem history. The defaults are in [the Krea configuration](krea_14b/inference.yaml).
+Krea finishes all ten draft blocks of three latent frames before starting the high-resolution pass. Each block’s final clean estimate guides the matching high-resolution block. Between denoising stages, Krea adds noise to the corrected estimate using its native scheduler. The FP16 decoder trims three leading display frames and writes 112 frames. [Krea configuration](krea_14b/inference.yaml)
 
 <a id="longlive-20-5b"></a>
 
@@ -78,7 +88,7 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc-per-node=2 longlive_5b/ge
   --prompt-file examples/prompt.txt --output outputs/longlive.mp4
 ```
 
-LongLive generates four blocks of eight latent frames. Each block uses four UniPC updates and a terminal clean prediction. Its guidance weights and seven-slot LiteMem settings are in [the LongLive configuration](longlive_5b/inference.yaml).
+LongLive generates four blocks of eight latent frames per branch. The fourth UniPC update ends at the smallest positive noise level in the schedule. A model call at timestep zero gives the fifth, final clean prediction. A separate call refreshes the attention cache. The BF16 decoder exports the first 112 frames. [LongLive configuration](longlive_5b/inference.yaml)
 
 For a single-GPU run with either causal model, launch its `generate.py` with `CUDA_VISIBLE_DEVICES=0 python` in place of `CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc-per-node=2`.
 
@@ -114,7 +124,7 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --standalone --nproc-per-node=2 minimax_h3_ref
   --output outputs/minimax_from_draft.mp4
 ```
 
-MiniMax applies spatial guidance in the first four of eight steps. Its noise schedule and guidance weights are in [the MiniMax configuration](minimax_h3_ref2va/inference.yaml).
+MiniMax uses bidirectional attention with Ref2VA draft conditioning. It guides the video prediction in the first four of eight HyperFlow steps with weights of approximately 1.0000, 0.3839, 0.1744 and 0.0735. The final four weights are zero. For the paper’s paired comparison, give both methods the same draft, prompt and seed. [MiniMax configuration](minimax_h3_ref2va/inference.yaml)
 
 <a id="writing-prompts"></a>
 
@@ -134,13 +144,37 @@ Use `--prompt-file path/to/prompt.txt` for a UTF-8 text file containing one prom
 
 With this example, the default settings, and the two-H100 setup above, the published inference code reproduced the Krea and LongLive evaluation MP4s byte for byte. MiniMax also generated the example successfully from text.
 
+## Reproducing the paper settings
+
+**Spatial guidance and memory.** Krea and LongLive bilinearly resize each clean draft block to the high-resolution latent grid with `align_corners=False`. At each guided stage, they subtract the high-resolution clean prediction from that reference, filter the difference with a 13 × 13 Gaussian (σ = 1 latent pixel, reflection padding), and add it back to the prediction with the stage weight. Filtering and fusion use FP32. The five stage weights are `[1, 1/3, 1/9, 0, 0]`. Each branch keeps one first-frame anchor, two summaries and four recent latent frames. The long and short summaries use update weights of 0.01 and 0.1. [Guidance implementation](arlift/guidance.py)
+
+**Random seeds.** The low- and high-resolution branches draw separate noise tensors at their own resolutions using the same base seed (default `610009`). Krea seeds each block with `seed + 1000003 * block_index`, counting from zero, then continues that stream for re-noising. LongLive resets the generator to `seed` at the start of each branch, draws one noise tensor for the full branch, and slices it into blocks.
+
+**Evaluation windows.** The release includes the three 2× generation paths and one of the 24 prompts used for the causal backbones. Repeating the paper’s full comparisons also requires the remaining evaluation inputs, baseline outputs and scoring code. The frame indices below refer to decoded RGB frames, count from zero and include both endpoints.
+
+| Paper comparison | Frames scored per clip |
+| --- | --- |
+| Krea main comparison | Score 0–31 and 40–71 separately, then average the two scores equally |
+| LongLive main comparison | 24–63 |
+| LongLive component ablation | 56–71 |
+| MiniMax paired comparison | 0–123 for each of the 12 draft pairs |
+
+For Krea and LongLive, generation writes the full MP4 at H.264 CRF 16. The evaluation extracts the listed windows from that export using lossless H.264 (QP 0) at 16 fps and the original dimensions.
+
 <a id="weights-and-outputs"></a>
 
 ## 📦 Weights and outputs
 
-- Checkpoints go under `weights/<backbone>/` by default. To use another disk, pass the same `--weights-dir /path/to/weights` to the download and generation commands. Model sources, revisions, and required files are in the [weight manifest](arlift/weights.json).
+- Checkpoints go under `weights/<backbone>/` by default. On another disk, give each backbone its own directory, for example `--weights-dir /mnt/models/krea_14b`, and pass that same path to the download and generation commands. [Weight manifest](arlift/weights.json)
 - Use `--list` with the download command to inspect sources before downloading. Use `--describe` on a generation command to validate and print its resolved configuration, or `--check-weights` to verify that the files and indexed shards exist. These checks run on CPU. For a refinement-only MiniMax installation, use `--check-weights` with `--draft /path/to/draft.mp4` and its matching prompt.
 - `--output` selects the MP4 path. Existing files are protected. With `--config` you can pass a copy of a model's YAML. The dimensions, block lengths and schedules shipped here correspond to the paper settings.
+
+To check an export against the dimensions, frame count and frame rate in the backbone table, inspect its streams with FFprobe. For a MiniMax export, `codec_type` also shows whether the draft’s audio track was carried over.
+
+```bash
+ffprobe -v error -show_entries stream=codec_type,width,height,avg_frame_rate,nb_frames \
+  -of json outputs/krea.mp4
+```
 
 <a id="acknowledgments"></a>
 

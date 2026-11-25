@@ -4,6 +4,17 @@
 
 **High-resolution video generation with low-resolution draft guidance.** ARLIFT generates a low-resolution draft and uses its structure to guide a second pass at twice the width and height. This repository contains the inference code, model-specific settings, and scripts for downloading the pinned checkpoints.
 
+
+<a id="method-in-motion"></a>
+
+## 🎬 Method in motion
+
+![ARLIFT method animation](docs/assets/method-intro.gif)
+
+The Krea/LongLive autoregressive guidance path is shown here. MiniMax uses a separate refinement pipeline.
+
+[Static overview](docs/assets/method-overview.png) · [Animation source and notes](docs/method-animation.md)
+
 | Backbone | Draft → output (width × height) | Output clip | Weight download |
 | --- | --- | --- | --- |
 | [Krea Realtime 14B](#krea-realtime-14b) | 832 × 480 → 1664 × 960 | 112 frames at 16 fps | ~41 GB |

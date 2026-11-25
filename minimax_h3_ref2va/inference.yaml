@@ -1,0 +1,11 @@
+# MiniMax-H3 Ref2VA · spatial 2× on a Pika-H3-Flex draft
+native_size: [1344, 768]  # width, height
+output_size: [2688, 1536]
+frames: 124
+fps: 24
+seed: 610009
+audio_rate: 32000
+video_shift: 12.0
+raw_sigmas: [1.0, 0.931506, 0.839236, 0.703462, 0.5, 0.296538, 0.160764, 0.068494, 0.0]
+guidance_weights: [1.0, 0.38385055647991806, 0.1744324019600805, 0.0735303905718267, 0.0, 0.0, 0.0, 0.0]
+gaussian: {kernel_size: 13, sigma: 1.0}

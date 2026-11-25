@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv*/
+weights/
+outputs/
+*.safetensors
+*.ckpt
+*.pth
+*.pt
+*.mp4
+*.mkv
+.DS_Store

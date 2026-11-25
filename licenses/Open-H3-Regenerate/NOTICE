@@ -1,0 +1,27 @@
+MiniMax H3 is licensed under the MiniMax H3 Community License Agreement, Copyright © 2026 MiniMax. All Rights Reserved.
+
+The Open-H3-Regenerate-2K-IC LoRA (lora/open_h3_regenerate_2k_ic_lora.safetensors) is a Model Derivative of
+MiniMax-H3 (https://huggingface.co/MiniMaxAI/MiniMax-H3, revision 42ed227ee7df40d41602854ae760620d6eb651fe) as
+defined in Section I.11 of that Agreement, and is distributed under the same Agreement (LICENSE).
+
+Modifications (Section III.2): the LoRA is a new file for the MiniMax-H3 Ref2VA transformer
+(transformer_ref). No file of MiniMax-H3 is modified: base_model/ is an unmodified copy of the MiniMax-H3 components
+this pipeline uses (revision 42ed227: transformer_ref, VAE, text encoder, tokenizer, processor, scheduler, with its
+LICENSE), redistributed under the same Agreement (the text encoder also follows its Qwen license, LICENSE-Qwen.txt).
+
+Other components:
+- latent_upsampler/: the 3D-conv latent upscaler by LBH-123-AI (Comfyui_Minimax_h3_latent_Upscaler), weights under
+  Apache-2.0 (latent_upsampler/LICENSE); its inference node infer/ref2va_ic/upscaler_node.py is unchanged, MIT
+  (infer/ref2va_ic/LICENSE-upscaler-node.txt).
+- vae_fast/: the fast H3 VAE decoder v2 (non-causal, 24 layers), distilled from the H3 VAE decoder as in
+  StreamRender-H3 and following the MiniMax H3 Community License; its code infer/ref2va_ic/fast_vae/ is adapted from
+  NVlabs/Sana (models/Open-H3-Regenerate-2K), Apache-2.0.
+- lora/minimax_h3_hyperflow_8step_v1.0.safetensors: the HyperFlow 8-step LoRA (VideoRebirthAI/hyperflow @ 5bde94d),
+  unchanged; a MiniMax-H3 Model Derivative created by the HyperFlow authors (Copyright 2026 The HyperFlow authors) and
+  distributed under the MiniMax H3 Community License. HyperFlow is not an official MiniMax product.
+- lora/minimax_h3_lms_v1.0_r64.safetensors: the LMS Sharp v1.0 LoRA by Alissonerdx (Alissonerdx/Minimax-H3-ComfyUI @
+  43a8d12), unchanged; it keeps its own / upstream terms (see that repository's LICENSES.md). Its [1025, 8]
+  adaln_t_table is read from Comfy-Org/MiniMax-H3 by byte range (base-derived, MiniMax H3 Community License).
+
+Open-H3-Regenerate-2K-IC is not an official MiniMax product and is not affiliated with or endorsed by MiniMax.
+Powered by MiniMax H3.

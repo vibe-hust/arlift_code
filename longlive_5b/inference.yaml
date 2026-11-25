@@ -1,0 +1,13 @@
+# LongLive 2.0 5B · spatial 2×
+native_size: [1280, 704]  # width, height
+output_size: [2560, 1408]
+blocks: 4
+block_latents: 8
+unipc_steps: 4
+timestep_shift: 5.0
+seed: 610009
+fps: 16
+frames: 112
+guidance_weights: [1.0, 0.3333333333333333, 0.1111111111111111, 0.0, 0.0]
+gaussian: {kernel_size: 13, sigma: 1.0}
+memory: {sink_frames: 1, long_memory_frames: 1, short_memory_frames: 1, recent_frames: 4, alpha_long: 0.01, alpha_short: 0.1}

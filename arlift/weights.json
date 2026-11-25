@@ -1,0 +1,154 @@
+{
+  "krea_14b": [
+    {
+      "repository": "krea/krea-realtime-video",
+      "revision": "9a2ceea280e5d584c6a28d384a9c19e38c810f8c",
+      "directory": "krea",
+      "files": [
+        "krea-realtime-video-14b.safetensors",
+        "transformer/config.json"
+      ],
+      "required": [
+        "krea-realtime-video-14b.safetensors",
+        "transformer/config.json"
+      ]
+    },
+    {
+      "repository": "Wan-AI/Wan2.1-T2V-1.3B",
+      "revision": "37ec512624d61f7aa208f7ea8140a131f93afc9a",
+      "directory": "Wan2.1-T2V-1.3B",
+      "files": [
+        "models_t5_umt5-xxl-enc-bf16.pth",
+        "Wan2.1_VAE.pth",
+        "google/umt5-xxl/spiece.model",
+        "google/umt5-xxl/tokenizer.json",
+        "google/umt5-xxl/tokenizer_config.json",
+        "google/umt5-xxl/special_tokens_map.json",
+        "config.json"
+      ],
+      "required": [
+        "models_t5_umt5-xxl-enc-bf16.pth",
+        "Wan2.1_VAE.pth",
+        "google/umt5-xxl/spiece.model",
+        "google/umt5-xxl/tokenizer.json",
+        "google/umt5-xxl/tokenizer_config.json",
+        "google/umt5-xxl/special_tokens_map.json",
+        "config.json"
+      ]
+    }
+  ],
+  "longlive_5b": [
+    {
+      "repository": "Efficient-Large-Model/LongLive-2.0-5B",
+      "revision": "8521079b863720a57c1a8d9b19c8d9e6ccb04c0f",
+      "directory": "checkpoints/LongLive-2.0-5B",
+      "files": [
+        "model_bf16.pt"
+      ],
+      "required": [
+        "model_bf16.pt"
+      ]
+    },
+    {
+      "repository": "Wan-AI/Wan2.2-TI2V-5B",
+      "revision": "921dbaf3f1674a56f47e83fb80a34bac8a8f203e",
+      "directory": "wan_models/Wan2.2-TI2V-5B",
+      "files": [
+        "config.json",
+        "Wan2.2_VAE.pth",
+        "models_t5_umt5-xxl-enc-bf16.pth",
+        "google/umt5-xxl/*",
+        "diffusion_pytorch_model*.safetensors",
+        "diffusion_pytorch_model.safetensors.index.json"
+      ],
+      "required": [
+        "config.json",
+        "Wan2.2_VAE.pth",
+        "models_t5_umt5-xxl-enc-bf16.pth",
+        "google/umt5-xxl/spiece.model",
+        "google/umt5-xxl/tokenizer_config.json",
+        "google/umt5-xxl/tokenizer.json",
+        "google/umt5-xxl/special_tokens_map.json",
+        "diffusion_pytorch_model.safetensors.index.json"
+      ]
+    }
+  ],
+  "minimax_h3_ref2va": [
+    {
+      "repository": "MiniMaxAI/MiniMax-H3",
+      "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+      "directory": "MiniMax-H3",
+      "files": [
+        "model_index.json",
+        "modular_model_index.json",
+        "transformer_ref/*",
+        "text_encoder/*",
+        "tokenizer/*",
+        "processor/*",
+        "vae/*"
+      ],
+      "required": [
+        "model_index.json",
+        "modular_model_index.json",
+        "transformer_ref/config.json",
+        "transformer_ref/diffusion_pytorch_model.safetensors.index.json",
+        "text_encoder/config.json",
+        "text_encoder/model.safetensors.index.json",
+        "tokenizer/tokenizer.json",
+        "tokenizer/tokenizer_config.json",
+        "tokenizer/merges.txt",
+        "tokenizer/vocab.json",
+        "processor/tokenizer.json",
+        "processor/tokenizer_config.json",
+        "processor/preprocessor_config.json",
+        "processor/video_preprocessor_config.json",
+        "processor/chat_template.json",
+        "vae/config.json",
+        "vae/diffusion_pytorch_model.safetensors.index.json"
+      ]
+    },
+    {
+      "repository": "MiniMaxAI/MiniMax-H3",
+      "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+      "directory": "MiniMax-H3",
+      "files": [
+        "transformer/*",
+        "audio_vae/*"
+      ],
+      "required": [
+        "transformer/config.json",
+        "transformer/diffusion_pytorch_model.safetensors.index.json",
+        "audio_vae/config.json",
+        "audio_vae/diffusion_pytorch_model.safetensors"
+      ],
+      "generate_draft": true
+    },
+    {
+      "repository": "Pika-Labs/Pika-H3-Flex",
+      "revision": "0ddf55ad7067ca1e76812253bd7b4600df87f759",
+      "directory": "Pika-H3-Flex",
+      "files": [
+        "fl2va/manifest.json",
+        "fl2va/adapter.safetensors"
+      ],
+      "required": [
+        "fl2va/manifest.json",
+        "fl2va/adapter.safetensors"
+      ],
+      "generate_draft": true
+    },
+    {
+      "repository": "Efficient-Large-Model/Open-H3-Regenerate-2K-IC",
+      "revision": "54a7104b204fb46486cf85c2f600942118186d57",
+      "directory": "HyperFlow",
+      "files": [
+        "lora/minimax_h3_hyperflow_8step_v1.0.safetensors",
+        "assets/silence_audio_124f.safetensors"
+      ],
+      "required": [
+        "lora/minimax_h3_hyperflow_8step_v1.0.safetensors",
+        "assets/silence_audio_124f.safetensors"
+      ]
+    }
+  ]
+}

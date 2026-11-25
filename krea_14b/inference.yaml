@@ -1,0 +1,14 @@
+# Krea Realtime 14B · spatial 2×
+native_size: [832, 480]   # width, height
+output_size: [1664, 960]
+blocks: 10
+block_latents: 3
+timesteps: [1000.0, 937.5, 833.3333129882812, 625.0, 0.0]
+timestep_shift: 5.0
+vae_tile: {size: 96, overlap: 16}
+seed: 610009
+fps: 16
+frames: 112
+guidance_weights: [1.0, 0.3333333333333333, 0.1111111111111111, 0.0, 0.0]
+gaussian: {kernel_size: 13, sigma: 1.0}
+memory: {sink_frames: 1, long_memory_frames: 1, short_memory_frames: 1, recent_frames: 4, alpha_long: 0.01, alpha_short: 0.1}
